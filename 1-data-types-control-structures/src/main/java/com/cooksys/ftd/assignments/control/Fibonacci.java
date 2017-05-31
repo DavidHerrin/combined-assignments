@@ -24,7 +24,12 @@ public class Fibonacci {
      * @throws IllegalArgumentException if the given index is less than zero
      */
     public static int atIndex(int i) throws IllegalArgumentException {
-        throw new NotImplementedException();
+    	if (i < 0) throw new IllegalArgumentException("Index is less than zero");
+    	
+    	if (i == 0 || i == 1) return 1;
+    	
+    	int[] fibArray = fibonacci(i + 1);
+    	return fibArray[i];
     }
 
     /**
@@ -38,7 +43,16 @@ public class Fibonacci {
      *                                  given end is less than the given start
      */
     public static int[] slice(int start, int end) throws IllegalArgumentException {
-        throw new NotImplementedException();
+    	if (start < 0 || end < 0) throw new IllegalArgumentException("Start or end negative");
+    	if (end < start) throw new IllegalArgumentException("End is less than start");
+    	
+    	int[] fibSlice = new int[end - start];
+    	
+    	for (int i = start; i < end; i++) {
+    		fibSlice[i - start] = atIndex(i);
+    	}
+    	
+    	return fibSlice;
     }
 
     /**
@@ -49,6 +63,19 @@ public class Fibonacci {
      * @throws IllegalArgumentException if the given count is negative
      */
     public static int[] fibonacci(int count) throws IllegalArgumentException {
-        throw new NotImplementedException();
+    	if (count < 0) throw new IllegalArgumentException("Count is less than zero");
+    	
+    	int[] fibSeq = new int[count];
+    	if (count > 1) {
+    		fibSeq[0] = 1;
+    		fibSeq[1] = 1;
+    	}
+    	else if (count == 1) fibSeq[0] = 1;
+    	
+    	for (int i = 2; i < count; i++) {
+    		fibSeq[i] = fibSeq[i - 1] + fibSeq[i - 2];
+    	}
+    	
+    	return fibSeq;
     }
 }
