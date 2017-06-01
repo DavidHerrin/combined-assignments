@@ -4,12 +4,19 @@ import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 public class FatCat implements Capitalist {
 
+	private String name;
+	private int salary;
+	private FatCat owner;
+	
     public FatCat(String name, int salary) {
-        throw new NotImplementedException();
+        this.name = name;
+        this.salary = salary;
     }
 
     public FatCat(String name, int salary, FatCat owner) {
-        throw new NotImplementedException();
+        this.name = name;
+        this.salary = salary;
+        this.owner = owner;
     }
 
     /**
@@ -17,7 +24,7 @@ public class FatCat implements Capitalist {
      */
     @Override
     public String getName() {
-        throw new NotImplementedException();
+        return this.name;
     }
 
     /**
@@ -25,7 +32,7 @@ public class FatCat implements Capitalist {
      */
     @Override
     public int getSalary() {
-        throw new NotImplementedException();
+        return this.salary;
     }
 
     /**
@@ -33,7 +40,7 @@ public class FatCat implements Capitalist {
      */
     @Override
     public boolean hasParent() {
-        throw new NotImplementedException();
+        return this.hasParent();
     }
 
     /**
@@ -41,6 +48,10 @@ public class FatCat implements Capitalist {
      */
     @Override
     public FatCat getParent() {
-        throw new NotImplementedException();
+        if (this.hasParent()) {
+        	return this.getParent();
+        }
+        
+        return null;
     }
 }
