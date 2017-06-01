@@ -36,9 +36,8 @@ interface IRational {
      * @return the negation of this
      */
     default IRational negate() {
-        Rational rat = new Rational(this.getNumerator() * -1, this.getDenominator());
+        return construct(this.getNumerator() * -1, this.getDenominator());
         
-        return rat;
     }
 
     /**
@@ -53,8 +52,8 @@ interface IRational {
     default IRational invert() throws IllegalStateException {
     	if (this.getNumerator() == 0) throw new IllegalStateException("Numerator is zero");
     	
-    	Rational rat = new Rational(this.getDenominator(), this.getNumerator());
-    	return rat;
+    	return construct(this.getDenominator(), this.getNumerator());
+    	
     }
 
     /**
@@ -73,9 +72,8 @@ interface IRational {
     	int newNumerator = (this.getNumerator() * that.getDenominator()) + (that.getNumerator() * this.getDenominator());
     	int newDenominator = this.getDenominator() * that.getDenominator();
     	
-    	Rational rat = new Rational(newNumerator, newDenominator);
+    	return construct(newNumerator, newDenominator);
     	
-    	return rat;
     } 
 
     /**
@@ -94,9 +92,8 @@ interface IRational {
     	int newNumerator = (this.getNumerator() * that.getDenominator()) - (that.getNumerator() * this.getDenominator());
     	int newDenominator = this.getDenominator() * that.getDenominator();
     	
-    	Rational rat = new Rational(newNumerator, newDenominator);
+    	return construct(newNumerator, newDenominator);
     	
-    	return rat;
     }
 
     /**
@@ -115,9 +112,8 @@ interface IRational {
     	int newNumerator = (this.getNumerator() * that.getNumerator());
     	int newDenominator = this.getDenominator() * that.getDenominator();
     	
-    	Rational rat = new Rational(newNumerator, newDenominator);
+    	return construct(newNumerator, newDenominator);
     	
-    	return rat;
     }
 
     /**
@@ -136,8 +132,7 @@ interface IRational {
     	int newNumerator = (this.getNumerator() * that.getDenominator());
     	int newDenominator = this.getDenominator() * that.getNumerator();
     	
-    	Rational rat = new Rational(newNumerator, newDenominator);
+    	return construct(newNumerator, newDenominator);
     	
-    	return rat;
     }
 }
