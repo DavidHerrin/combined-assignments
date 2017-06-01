@@ -66,6 +66,7 @@ public class Fibonacci {
     	if (count < 0) throw new IllegalArgumentException("Count is less than zero");
     	
     	int[] fibSeq = new int[count];
+    	
     	if (count > 1) {
     		fibSeq[0] = 1;
     		fibSeq[1] = 1;

@@ -36,7 +36,9 @@ interface IRational {
      * @return the negation of this
      */
     default IRational negate() {
-        throw new NotImplementedException();
+        Rational rat = new Rational(this.getNumerator() * -1, this.getDenominator());
+        
+        return rat;
     }
 
     /**
@@ -49,7 +51,10 @@ interface IRational {
      * @throws IllegalStateException if the numerator of this rational value is 0
      */
     default IRational invert() throws IllegalStateException {
-        throw new NotImplementedException();
+    	if (this.getNumerator() == 0) throw new IllegalStateException("Numerator is zero");
+    	
+    	Rational rat = new Rational(this.getDenominator(), this.getNumerator());
+    	return rat;
     }
 
     /**
@@ -63,8 +68,15 @@ interface IRational {
      * @throws IllegalArgumentException if that is null
      */
     default IRational add(IRational that) throws IllegalArgumentException {
-        throw new NotImplementedException();
-    }
+    	if (that == null) throw new IllegalArgumentException("that is null in add");
+    	
+    	int newNumerator = (this.getNumerator() * that.getDenominator()) + (that.getNumerator() * this.getDenominator());
+    	int newDenominator = this.getDenominator() * that.getDenominator();
+    	
+    	Rational rat = new Rational(newNumerator, newDenominator);
+    	
+    	return rat;
+    } 
 
     /**
      * subtraction of rational values
@@ -77,7 +89,14 @@ interface IRational {
      * @throws IllegalArgumentException if that is null
      */
     default IRational sub(IRational that) throws IllegalArgumentException {
-        throw new NotImplementedException();
+    	if (that == null) throw new IllegalArgumentException("that is null in sub");
+    	
+    	int newNumerator = (this.getNumerator() * that.getDenominator()) - (that.getNumerator() * this.getDenominator());
+    	int newDenominator = this.getDenominator() * that.getDenominator();
+    	
+    	Rational rat = new Rational(newNumerator, newDenominator);
+    	
+    	return rat;
     }
 
     /**
@@ -91,7 +110,14 @@ interface IRational {
      * @throws IllegalArgumentException if that is null
      */
     default IRational mul(IRational that) throws IllegalArgumentException {
-        throw new NotImplementedException();
+    	if (that == null) throw new IllegalArgumentException("that is null in mul");
+    	
+    	int newNumerator = (this.getNumerator() * that.getNumerator());
+    	int newDenominator = this.getDenominator() * that.getDenominator();
+    	
+    	Rational rat = new Rational(newNumerator, newDenominator);
+    	
+    	return rat;
     }
 
     /**
@@ -105,6 +131,13 @@ interface IRational {
      * @throws IllegalArgumentException if that is null or if the numerator of that is 0
      */
     default IRational div(IRational that) throws IllegalArgumentException {
-        throw new NotImplementedException();
+    	if (that == null) throw new IllegalArgumentException("that is null in div");
+    	
+    	int newNumerator = (this.getNumerator() * that.getDenominator());
+    	int newDenominator = this.getDenominator() * that.getNumerator();
+    	
+    	Rational rat = new Rational(newNumerator, newDenominator);
+    	
+    	return rat;
     }
 }
