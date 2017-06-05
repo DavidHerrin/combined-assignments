@@ -1,1 +1,1 @@
-<?xml version="1.0" encoding="UTF-8" standalone="yes"?><config><local port="9898"/><remote host="10.1.1.138" port="7575"/><student-file-path>C:/Users/ftd-2/code/combined-assignments/5-socket-io-serialization/config/config.xml</student-file-path></config>
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?><config><local port="9898"/><remote host="127.0.0.1" port="9898"/><student-file-path>C:/Users/ftd-2/code/combined-assignments/5-socket-io-serialization/config/student.xml</student-file-path></config>

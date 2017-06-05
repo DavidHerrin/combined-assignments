@@ -5,6 +5,7 @@ import com.cooksys.ftd.assignments.socket.model.LocalConfig;
 import com.cooksys.ftd.assignments.socket.model.RemoteConfig;
 import com.cooksys.ftd.assignments.socket.model.Student;
 
+import java.io.DataOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -26,14 +27,12 @@ public class Server extends Utils {
      * @return a {@link Student} object unmarshalled from the given file path
      */
     public static Student loadStudent(String studentFilePath, JAXBContext jaxb) {
-    	Config config = loadConfig(studentFilePath, jaxb);
-    	File file = new File(config.getStudentFilePath());
+    	File file = new File(studentFilePath);
     	Student student = null;
-    	Unmarshaller jaxbUnmarshaller;
+    	
 		try {
-			jaxbUnmarshaller = jaxb.createUnmarshaller();
+			Unmarshaller jaxbUnmarshaller = jaxb.createUnmarshaller();
 			student = (Student) jaxbUnmarshaller.unmarshal(file);
-			
 		} catch (JAXBException e) {
 			e.printStackTrace();
 		}
@@ -90,17 +89,17 @@ public class Server extends Utils {
     	
     	JAXBContext jaxb = createJAXBContext();
     	Config config = loadConfig(path, jaxb);
-    	Student student = null;
-    	
+    	 	
 		
 		ServerSocket listener = new ServerSocket(config.getLocal().getPort());
 		try {
             while (true) {
                 Socket socket = listener.accept();
                 try {
-                	student = loadStudent(config.getStudentFilePath(), jaxb);
-                	PrintWriter out =
-                            new PrintWriter(socket.getOutputStream(), true);
+                	Student student = loadStudent(config.getStudentFilePath(), jaxb);
+                	
+                	DataOutputStream out =
+                            new DataOutputStream(socket.getOutputStream());
                 	Marshaller jaxbMarshaller = jaxb.createMarshaller();
                 	jaxbMarshaller.marshal(student, out);
                 } catch (IOException | JAXBException e) {
