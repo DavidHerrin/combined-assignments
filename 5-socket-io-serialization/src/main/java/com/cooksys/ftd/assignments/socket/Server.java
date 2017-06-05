@@ -1,8 +1,20 @@
 package com.cooksys.ftd.assignments.socket;
 
+import com.cooksys.ftd.assignments.socket.model.Config;
+import com.cooksys.ftd.assignments.socket.model.LocalConfig;
+import com.cooksys.ftd.assignments.socket.model.RemoteConfig;
 import com.cooksys.ftd.assignments.socket.model.Student;
 
+import java.io.File;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.net.ServerSocket;
+import java.net.Socket;
+
 import javax.xml.bind.JAXBContext;
+import javax.xml.bind.JAXBException;
+import javax.xml.bind.Marshaller;
+import javax.xml.bind.Unmarshaller;
 
 public class Server extends Utils {
 
@@ -14,7 +26,18 @@ public class Server extends Utils {
      * @return a {@link Student} object unmarshalled from the given file path
      */
     public static Student loadStudent(String studentFilePath, JAXBContext jaxb) {
-        return null; // TODO
+    	Config config = loadConfig(studentFilePath, jaxb);
+    	File file = new File(config.getStudentFilePath());
+    	Student student = null;
+    	Unmarshaller jaxbUnmarshaller;
+		try {
+			jaxbUnmarshaller = jaxb.createUnmarshaller();
+			student = (Student) jaxbUnmarshaller.unmarshal(file);
+			
+		} catch (JAXBException e) {
+			e.printStackTrace();
+		}
+		return student;
     }
 
     /**
@@ -29,7 +52,68 @@ public class Server extends Utils {
      *
      * Following this transaction, the server may shut down or listen for more connections.
      */
-    public static void main(String[] args) {
-        // TODO
+    public static void main(String[] args) throws IOException{
+    	String path = "C:/Users/ftd-2/code/combined-assignments/5-socket-io-serialization/config/config.xml";
+//    	LocalConfig localConfig = new LocalConfig();
+//    	localConfig.setPort(9898);
+//    	RemoteConfig remoteConfig = new RemoteConfig();
+//    	remoteConfig.setHost("10.1.1.138");
+//    	remoteConfig.setPort(7575);
+//        Config config = new Config();
+//        config.setLocal(localConfig);
+//        config.setRemote(remoteConfig);      
+//        config.setStudentFilePath(path);
+//      JAXBContext jaxbContext = createJAXBContext();
+//      Marshaller jaxbMarshaller;
+//		try {
+//			jaxbMarshaller = jaxbContext.createMarshaller();
+//			File file = new File(path);
+//	        jaxbMarshaller.marshal(config, file);
+//		} catch (JAXBException e) {
+//			e.printStackTrace();
+//		}
+//        
+//    	String path2 = "C:/Users/ftd-2/code/combined-assignments/5-socket-io-serialization/config/student.xml";
+//      Student student = new Student();
+//      student.setFirstName("David");
+//      student.setLastName("Herrin");
+//      student.setFavoriteIDE("Eclipse");
+//      student.setFavoriteLanguage("Java");
+//      student.setFavoriteParadigm("Object-Oriented");
+//		try {
+//			jaxbMarshaller = jaxbContext.createMarshaller();
+//			File file = new File(path2);
+//	        jaxbMarshaller.marshal(student, file);
+//		} catch (JAXBException e) {
+//			e.printStackTrace();
+//		}
+    	
+    	JAXBContext jaxb = createJAXBContext();
+    	Config config = loadConfig(path, jaxb);
+    	Student student = null;
+    	
+		
+		ServerSocket listener = new ServerSocket(config.getLocal().getPort());
+		try {
+            while (true) {
+                Socket socket = listener.accept();
+                try {
+                	student = loadStudent(config.getStudentFilePath(), jaxb);
+                	PrintWriter out =
+                            new PrintWriter(socket.getOutputStream(), true);
+                	Marshaller jaxbMarshaller = jaxb.createMarshaller();
+                	jaxbMarshaller.marshal(student, out);
+                } catch (IOException | JAXBException e) {
+                	
+                }
+                finally {
+                    socket.close();
+                }
+            } 
+        }
+        finally {
+            listener.close();
+        }
+        
     }
 }

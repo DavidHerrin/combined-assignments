@@ -1,5 +1,9 @@
 package com.cooksys.ftd.assignments.socket;
 
+import javax.xml.bind.JAXBContext;
+
+import com.cooksys.ftd.assignments.socket.model.Config;
+
 public class Client {
 
     /**
@@ -12,6 +16,8 @@ public class Client {
      * over the socket as xml, and should unmarshal that object before printing its details to the console.
      */
     public static void main(String[] args) {
-        // TODO
+    	String path = "C:/Users/ftd-2/code/combined-assignments/5-socket-io-serialization/config/config.xml";
+    	JAXBContext jaxb = createJAXBContext();
+    	Config config = loadConfig(path, jaxb);
     }
 }
