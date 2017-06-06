@@ -102,6 +102,7 @@ public class Server extends Utils {
                             new DataOutputStream(socket.getOutputStream());
                 	Marshaller jaxbMarshaller = jaxb.createMarshaller();
                 	jaxbMarshaller.marshal(student, out);
+                	break;
                 } catch (IOException | JAXBException e) {
                 	
                 }
