@@ -32,16 +32,16 @@ public class Client {
     	Config config = Utils.loadConfig(path, jaxb);
     	
 		try {
-			Socket s = new Socket(config.getRemote().getHost(), config.getRemote().getPort());
-			DataInputStream input =
-	                new DataInputStream(s.getInputStream());
+			Socket socket = new Socket(config.getRemote().getHost(), config.getRemote().getPort());
+			DataInputStream input = new DataInputStream(socket.getInputStream());
 			Unmarshaller jaxbUnmarshaller = jaxb.createUnmarshaller();
 			Student student = (Student) jaxbUnmarshaller.unmarshal(input);
 			System.out.println(student.toString());
+			socket.close();
 		} catch (IOException | JAXBException e) {
 			e.printStackTrace();
 		} finally {
-		//	s.close();
+			
 		}
 		
     	
